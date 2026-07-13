@@ -71,11 +71,6 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Long remove(Long id) {
-        return 0L;
-    }
-
-    @Override
     public Long cancel(Long id) {
         return 0L;
     }

@@ -62,24 +62,6 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     }
 
     @Override
-    public boolean delete(Long id) {
-        try (Connection connection = DatabaseConfig.getConnection();
-            PreparedStatement ps = connection.prepareStatement(
-                    "DELETE FROM reservations WHERE id = ?"
-            )
-        ) {
-            ps.setLong(1, id);
-
-            int rowsAffected = ps.executeUpdate();
-
-            return !(rowsAffected == 0);
-        }
-        catch (SQLException e) {
-            throw new DatabaseRepositoryException("Delete From events Table Failed!" + e.getMessage());
-        }
-    }
-
-    @Override
     public boolean cancel(Long id) {
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement ps = connection.prepareStatement(
