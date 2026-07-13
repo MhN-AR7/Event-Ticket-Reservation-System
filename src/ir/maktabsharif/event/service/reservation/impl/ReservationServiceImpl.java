@@ -18,14 +18,14 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Long register(Reservation reservation) {
-        Event event = eventRepository.findById(
-                reservation.getEventId()).orElseThrow(() -> new EventNotFoundException("Event Not Found!"));
+        Event event = eventRepository.findById(reservation.getEventId())
+                .orElseThrow(() -> new EventNotFoundException("Event Not Found!"));
 
         Rule.check(event.getStatus().equals(EventStatus.ACTIVE),
                 EventCancelledException::new,
                 "Event Must be Active!");
 
-        Rule.check(reservation.getTicketCount() > event.getCapacity()-event.getReservedCount(),
+        Rule.check(reservation.getTicketCount() > event.getCapacity() - event.getReservedCount(),
                 CapacityExceededException::new,
                 "The Number of Tickets Exceeds The Remaining Capacity!");
 
@@ -37,22 +37,27 @@ public class ReservationServiceImpl implements ReservationService {
                 InvalidDataException::new,
                 "Customer Phone Number Exist!");
 
-        eventRepository.update(new Event(event.getTitle(), event.getLocation(), event.getCapacity(),
-                event.getReservedCount()+reservation.getTicketCount(), event.getTicketPrice(), event.getStatus()));
+        Long id = reservationRepository.save(reservation);
 
-        return reservationRepository.save(reservation);
+        eventRepository.update(new Event(event.getTitle(), event.getLocation(), event.getCapacity(),
+                event.getReservedCount() + reservation.getTicketCount(), event.getTicketPrice(), event.getStatus()));
+
+        return id;
     }
 
     @Override
     public Reservation change(Reservation reservation) {
-        Event event = eventRepository.findById(
-                reservation.getEventId()).orElseThrow(() -> new EventNotFoundException("Event Not Found!"));
+        Event event = eventRepository.findById(reservation.getEventId())
+                .orElseThrow(() -> new EventNotFoundException("Event Not Found!"));
+
+        Reservation oldReservation = reservationRepository.findById(reservation.getId())
+                .orElseThrow(() -> new ReservationNotFoundException("Reservation Not Found!"));
 
         Rule.check(event.getStatus().equals(EventStatus.ACTIVE),
                 EventCancelledException::new,
                 "Event Must be Active!");
 
-        Rule.check(reservation.getTicketCount() > event.getCapacity()-event.getReservedCount(),
+        Rule.check(reservation.getTicketCount() > event.getCapacity() - event.getReservedCount(),
                 CapacityExceededException::new,
                 "The Number of Tickets Exceeds The Remaining Capacity!");
 
@@ -64,15 +69,33 @@ public class ReservationServiceImpl implements ReservationService {
                 InvalidDataException::new,
                 "Customer Phone Number Exist!");
 
-        eventRepository.update(new Event(event.getTitle(), event.getLocation(), event.getCapacity(),
-                event.getReservedCount()+reservation.getTicketCount(), event.getTicketPrice(), event.getStatus()));
+        reservationRepository.update(reservation);
 
-        return reservationRepository.findById(reservation.getId()).orElseThrow(() -> new ReservationNotFoundException("Reservation Not Found!"));
+        eventRepository.update(new Event(event.getTitle(), event.getLocation(), event.getCapacity(),
+                event.getReservedCount() + (reservation.getTicketCount() - oldReservation.getTicketCount())
+                , event.getTicketPrice(), event.getStatus()));
+
+        return reservationRepository.findById(reservation.getId())
+                .orElseThrow(() -> new ReservationNotFoundException("Reservation Not Found!"));
     }
 
     @Override
     public Long cancel(Long id) {
-        return 0L;
+        Rule.check(id < 0,
+                InvalidDataException::new,
+                "ID Cannot be Negative!");
+
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(() -> new ReservationNotFoundException("Reservation Not Found!"));
+        Event event = eventRepository.findById(reservation.getEventId())
+                .orElseThrow(() -> new EventNotFoundException("Event Not Found!"));
+
+        reservationRepository.cancel(id);
+
+        eventRepository.update(new Event(event.getTitle(), event.getLocation(), event.getCapacity(),
+                event.getReservedCount() - reservation.getTicketCount(), event.getTicketPrice(), event.getStatus()));
+
+        return id;
     }
 
     @Override
