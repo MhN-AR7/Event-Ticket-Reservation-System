@@ -1,5 +1,6 @@
 package ir.maktabsharif.event.service.event.impl;
 
+import ir.maktabsharif.event.exception.EventNotFoundException;
 import ir.maktabsharif.event.exception.InvalidDataException;
 import ir.maktabsharif.event.exception.Rule;
 import ir.maktabsharif.event.model.Event;
@@ -30,8 +31,32 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public boolean change(Event event) {
-        return false;
+    public Event change(Event event) {
+        Rule.check(event.getTitle() == null || event.getTitle().isBlank(),
+                InvalidDataException::new,
+                "Title Cannot be Null or Empty!");
+
+        Rule.check(event.getCapacity() < 0,
+                InvalidDataException::new,
+                "Capacity Cannot be Negative!");
+
+        Rule.check(event.getReservedCount() < 0,
+                InvalidDataException::new,
+                "Reserved Count Cannot be Negative!");
+
+        Rule.check(event.getReservedCount() > event.getCapacity(),
+                InvalidDataException::new,
+                "Reserved Count Cannot Bigger Than Capacity!");
+
+        Rule.check(event.getTicketPrice().compareTo(BigDecimal.ZERO) < 0,
+                InvalidDataException::new,
+                "Price Cannot be Negative!");
+
+        Rule.check(eventRepository.update(event),
+                EventNotFoundException::new,
+                "Event Not Found!");
+
+        return eventRepository.findById(event.getId()).orElseThrow(() -> new EventNotFoundException("Event Not Found!"));
     }
 
     @Override
