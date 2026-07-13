@@ -4,6 +4,7 @@ import ir.maktabsharif.event.enums.ReservationStatus;
 import ir.maktabsharif.event.exception.DatabaseRepositoryException;
 import ir.maktabsharif.event.model.Reservation;
 import ir.maktabsharif.event.repository.GenericRepository;
+import ir.maktabsharif.event.repository.ReservationRepository;
 import ir.maktabsharif.event.util.DatabaseConfig;
 
 import java.sql.*;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class ReservationRepositoryImpl implements GenericRepository<Reservation> {
+public class ReservationRepositoryImpl implements ReservationRepository {
     @Override
     public Long save(Reservation reservation) {
         try (Connection connection = DatabaseConfig.getConnection();
