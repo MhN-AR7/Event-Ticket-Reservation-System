@@ -3,7 +3,6 @@ package ir.maktabsharif.event.repository.impl;
 import ir.maktabsharif.event.enums.ReservationStatus;
 import ir.maktabsharif.event.exception.DatabaseRepositoryException;
 import ir.maktabsharif.event.model.Reservation;
-import ir.maktabsharif.event.repository.GenericRepository;
 import ir.maktabsharif.event.repository.ReservationRepository;
 import ir.maktabsharif.event.util.DatabaseConfig;
 

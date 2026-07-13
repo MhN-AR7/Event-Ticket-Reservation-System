@@ -1,11 +1,9 @@
 package ir.maktabsharif.event.repository.impl;
 
 import ir.maktabsharif.event.enums.EventStatus;
-import ir.maktabsharif.event.enums.ReservationStatus;
 import ir.maktabsharif.event.exception.DatabaseRepositoryException;
 import ir.maktabsharif.event.model.Event;
 import ir.maktabsharif.event.repository.EventRepository;
-import ir.maktabsharif.event.repository.GenericRepository;
 import ir.maktabsharif.event.util.DatabaseConfig;
 
 import java.sql.Connection;
