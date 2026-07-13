@@ -4,6 +4,7 @@ import ir.maktabsharif.event.enums.EventStatus;
 import ir.maktabsharif.event.enums.ReservationStatus;
 import ir.maktabsharif.event.exception.DatabaseRepositoryException;
 import ir.maktabsharif.event.model.Event;
+import ir.maktabsharif.event.repository.EventRepository;
 import ir.maktabsharif.event.repository.GenericRepository;
 import ir.maktabsharif.event.util.DatabaseConfig;
 
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class EventRepositoryImpl implements GenericRepository<Event> {
+public class EventRepositoryImpl implements EventRepository {
     @Override
     public Long save(Event event) {
         try (Connection connection = DatabaseConfig.getConnection();
