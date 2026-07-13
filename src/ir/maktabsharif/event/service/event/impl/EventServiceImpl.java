@@ -88,6 +88,9 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> getAll() {
-        return List.of();
+        List<Event> events = eventRepository.findAll();
+
+        if (events.isEmpty()) throw new EventNotFoundException("Event List is Empty!");
+        return events;
     }
 }
