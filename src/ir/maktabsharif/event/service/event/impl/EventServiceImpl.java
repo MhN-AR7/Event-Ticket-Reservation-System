@@ -4,6 +4,7 @@ import ir.maktabsharif.event.exception.EventNotFoundException;
 import ir.maktabsharif.event.exception.InvalidDataException;
 import ir.maktabsharif.event.exception.Rule;
 import ir.maktabsharif.event.model.Event;
+import ir.maktabsharif.event.repository.event.EventRepository;
 import ir.maktabsharif.event.repository.event.impl.EventRepositoryImpl;
 import ir.maktabsharif.event.service.event.EventService;
 
@@ -11,7 +12,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public class EventServiceImpl implements EventService {
-    EventRepositoryImpl eventRepository = new EventRepositoryImpl();
+    EventRepository eventRepository = new EventRepositoryImpl();
 
     @Override
     public Long register(Event event) {
