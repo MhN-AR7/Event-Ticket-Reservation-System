@@ -5,7 +5,7 @@ CREATE TABLE events (
                         title VARCHAR(50),
                         location VARCHAR(200),
                         capacity INTEGER,
-                        reserved_count INTEGER,
+                        reserved_count INTEGER DEFAULT 0,
                         ticket_price DECIMAL(15,2),
                         status VARCHAR
 );
