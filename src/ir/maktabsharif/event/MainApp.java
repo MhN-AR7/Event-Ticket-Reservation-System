@@ -20,13 +20,16 @@ public class MainApp {
                     
                     1. Create Event
                     2. Show All Events
-                    3. Update Event
-                    4. Cancel Event
-                    5. Create Reservation
-                    6. Cancel Reservation
+                    3. Find Event
+                    4. Update Event
+                    5. Cancel Event
+                    6. Create Reservation
                     7. Show All Reservations
-                    8. Reports
-                    9. Exit
+                    8. Find Reservation
+                    9. Update Reservation
+                    10. Cancel Reservation
+                    11. Reports
+                    0. Exit
                     """);
 
             int choice = input.nextInt();
