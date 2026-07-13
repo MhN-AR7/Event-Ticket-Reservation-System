@@ -83,7 +83,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event getById(Long id) {
-        return null;
+        return eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException("Event Not Found!"));
     }
 
     @Override
