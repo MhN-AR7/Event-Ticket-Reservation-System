@@ -159,4 +159,22 @@ public class ReservationRepositoryImpl implements ReservationRepository {
             throw new DatabaseRepositoryException("Finding All From reservations Table Failed!" + e.getMessage());
         }
     }
+
+    @Override
+    public boolean existByPhoneNumber(String phoneNumber) {
+        try (Connection connection = DatabaseConfig.getConnection();
+            PreparedStatement ps = connection.prepareStatement(
+                    "SELECT * FROM reservations WHERE customer_phone = ?"
+            )
+        ) {
+            ps.setString(1, phoneNumber);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
+        catch (SQLException e) {
+            throw new DatabaseRepositoryException("Existing Phone Number From reservations Table Failed!" + e.getMessage());
+        }
+    }
 }
