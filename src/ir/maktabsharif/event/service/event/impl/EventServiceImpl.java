@@ -71,8 +71,14 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public boolean cancel(Long id) {
-        return false;
+    public Long cancel(Long id) {
+        Rule.check(id < 0,
+                InvalidDataException::new,
+                "ID Cannot be Negative!");
+
+        if (!eventRepository.cancel(id)) throw new EventNotFoundException("Event Not Found!");
+
+        return id;
     }
 
     @Override
