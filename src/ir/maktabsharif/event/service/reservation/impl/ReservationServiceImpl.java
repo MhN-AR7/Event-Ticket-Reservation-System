@@ -45,7 +45,29 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Reservation change(Reservation reservation) {
-        return null;
+        Event event = eventRepository.findById(
+                reservation.getEventId()).orElseThrow(() -> new EventNotFoundException("Event Not Found!"));
+
+        Rule.check(event.getStatus().equals(EventStatus.ACTIVE),
+                EventCancelledException::new,
+                "Event Must be Active!");
+
+        Rule.check(reservation.getTicketCount() > event.getCapacity()-event.getReservedCount(),
+                CapacityExceededException::new,
+                "The Number of Tickets Exceeds The Remaining Capacity!");
+
+        Rule.check(reservation.getCustomerName() == null || reservation.getCustomerName().isBlank(),
+                InvalidDataException::new,
+                "Customer Name Cannot be Null or Empty!");
+
+        Rule.check(reservationRepository.existByPhoneNumber(reservation.getCustomerPhone()),
+                InvalidDataException::new,
+                "Customer Phone Number Exist!");
+
+        eventRepository.update(new Event(event.getTitle(), event.getLocation(), event.getCapacity(),
+                event.getReservedCount()+reservation.getTicketCount(), event.getTicketPrice(), event.getStatus()));
+
+        return reservationRepository.findById(reservation.getId()).orElseThrow(() -> new ReservationNotFoundException("Reservation Not Found!"));
     }
 
     @Override
