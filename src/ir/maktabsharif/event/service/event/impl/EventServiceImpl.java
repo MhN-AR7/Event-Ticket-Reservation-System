@@ -1,8 +1,6 @@
 package ir.maktabsharif.event.service.event.impl;
 
-import ir.maktabsharif.event.exception.EventNotFoundException;
-import ir.maktabsharif.event.exception.InvalidDataException;
-import ir.maktabsharif.event.exception.Rule;
+import ir.maktabsharif.event.exception.*;
 import ir.maktabsharif.event.model.Event;
 import ir.maktabsharif.event.repository.event.EventRepository;
 import ir.maktabsharif.event.repository.event.impl.EventRepositoryImpl;
@@ -46,7 +44,7 @@ public class EventServiceImpl implements EventService {
                 "Reserved Count Cannot be Negative!");
 
         Rule.check(event.getReservedCount() > event.getCapacity(),
-                InvalidDataException::new,
+                CapacityExceededException::new,
                 "Reserved Count Cannot Bigger Than Capacity!");
 
         Rule.check(event.getTicketPrice().compareTo(BigDecimal.ZERO) < 0,
