@@ -57,7 +57,8 @@ public class EventServiceImpl implements EventService {
                 EventNotFoundException::new,
                 "Event Not Found!");
 
-        return eventRepository.findById(event.getId()).orElseThrow(() -> new EventNotFoundException("Event Not Found!"));
+        return eventRepository.findById(event.getId())
+                .orElseThrow(() -> new EventNotFoundException("Event Not Found!"));
     }
 
     @Override
@@ -73,7 +74,8 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event getById(Long id) {
-        return eventRepository.findById(id).orElseThrow(() -> new EventNotFoundException("Event Not Found!"));
+        return eventRepository.findById(id)
+                .orElseThrow(() -> new EventNotFoundException("Event Not Found!"));
     }
 
     @Override

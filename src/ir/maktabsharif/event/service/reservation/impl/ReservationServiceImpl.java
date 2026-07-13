@@ -100,7 +100,8 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Reservation getById(Long id) {
-        return null;
+        return reservationRepository.findById(id)
+                .orElseThrow(() -> new ReservationNotFoundException("Reservation Not Found!"));
     }
 
     @Override
