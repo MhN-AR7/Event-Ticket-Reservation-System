@@ -106,6 +106,9 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public List<Reservation> getAll() {
-        return List.of();
+        List<Reservation> reservations = reservationRepository.findAll();
+
+        if (reservations.isEmpty()) throw new ReservationNotFoundException("Reservation List is Empty!");
+        return reservations;
     }
 }
