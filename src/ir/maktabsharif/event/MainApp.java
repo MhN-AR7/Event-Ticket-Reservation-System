@@ -1,10 +1,13 @@
 package ir.maktabsharif.event;
 
+import ir.maktabsharif.event.exception.InvalidDataException;
+import ir.maktabsharif.event.model.Event;
 import ir.maktabsharif.event.service.event.EventService;
 import ir.maktabsharif.event.service.event.impl.EventServiceImpl;
 import ir.maktabsharif.event.service.reservation.ReservationService;
 import ir.maktabsharif.event.service.reservation.impl.ReservationServiceImpl;
 
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class MainApp {
@@ -37,7 +40,26 @@ public class MainApp {
 
             switch (choice) {
                 case 1:
+                    try {
+                        System.out.println("\n---- Creating Event ----\n");
+                        System.out.print("Enter Event's Title: ");
+                        String title = input.nextLine();
+                        System.out.print("Enter " + title + "'s Location: ");
+                        String location = input.nextLine();
+                        System.out.print("Enter " + title + "'s Capacity: ");
+                        Integer capacity = input.nextInt();
+                        input.nextLine();
+                        System.out.print("Enter " + title + "'s Ticket Price: ");
+                        BigDecimal ticketPrice = input.nextBigDecimal();
+                        input.nextLine();
 
+                        Long id = eventService.register(new Event(title, location, capacity, ticketPrice));
+                        System.out.println("\nEvent Created Successfully!\nID: " + id);
+                    }
+                    catch (InvalidDataException e) {
+                        System.err.println(e.getMessage());
+                    }
+                    break;
             }
         }
     }
