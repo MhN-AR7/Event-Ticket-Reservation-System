@@ -127,4 +127,12 @@ public class ReservationServiceImpl implements ReservationService {
         if (reservations.isEmpty()) throw new ReservationNotFoundException("Reservation List is Empty!");
         return reservations;
     }
+
+    @Override
+    public List<Reservation> getActiveReservation() {
+        List<Reservation> reservations = reservationRepository.findActiveReservation();
+
+        if (reservations.isEmpty()) throw new ReservationNotFoundException("No Active Reservation!");
+        return reservations;
+    }
 }
