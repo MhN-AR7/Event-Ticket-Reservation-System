@@ -6,6 +6,7 @@ import ir.maktabsharif.event.model.Event;
 import ir.maktabsharif.event.repository.event.EventRepository;
 import ir.maktabsharif.event.util.DatabaseConfig;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -189,6 +190,24 @@ public class EventRepositoryImpl implements EventRepository {
         }
         catch (SQLException e) {
             throw new DatabaseRepositoryException("Finding Most Expensive From events Table Failed!");
+        }
+    }
+
+    @Override
+    public BigDecimal findAverageTicketPrice() {
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement ps = connection.prepareStatement(
+                     "SELECT AVG(ticket_price) from events"
+             );
+             ResultSet rs = ps.executeQuery();
+        ) {
+            if (rs.next()) {
+                return rs.getBigDecimal(1);
+            }
+            throw new DatabaseRepositoryException("Average Ticket Price Not Returned!");
+        }
+        catch (SQLException e) {
+            throw new DatabaseRepositoryException("Finding Average Ticket Price From events Table Failed!");
         }
     }
 }
