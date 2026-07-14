@@ -17,5 +17,5 @@ CREATE TABLE reservations (
                               event_id BIGINT,
                               ticket_count INTEGER,
                               reservation_date DATE,
-                              status VARCHAR
+                              status VARCHAR DEFAULT 'ACTIVE'
 );

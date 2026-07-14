@@ -1,14 +1,18 @@
 package ir.maktabsharif.event;
 
+import ir.maktabsharif.event.exception.CapacityExceededException;
+import ir.maktabsharif.event.exception.EventCancelledException;
 import ir.maktabsharif.event.exception.EventNotFoundException;
 import ir.maktabsharif.event.exception.InvalidDataException;
 import ir.maktabsharif.event.model.Event;
+import ir.maktabsharif.event.model.Reservation;
 import ir.maktabsharif.event.service.event.EventService;
 import ir.maktabsharif.event.service.event.impl.EventServiceImpl;
 import ir.maktabsharif.event.service.reservation.ReservationService;
 import ir.maktabsharif.event.service.reservation.impl.ReservationServiceImpl;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class MainApp {
@@ -120,6 +124,27 @@ public class MainApp {
                         System.out.println("\nEvent Cancelled Successfully With ID: " + id);
                     }
                     catch (EventNotFoundException | InvalidDataException e) {
+                        System.err.println(e.getMessage());
+                    }
+                    break;
+                case 6:
+                    try {
+                        System.out.println("\n---- Creating Reservation ----\n");
+                        System.out.print("Enter Customer Name: ");
+                        String customerName = input.nextLine();
+                        System.out.print("Enter Customer Phone Number: ");
+                        String customerPhone = input.nextLine();
+                        System.out.print("Enter Event ID: ");
+                        Long eventId = input.nextLong();
+                        input.nextLine();
+                        System.out.print("Enter Ticket Count: ");
+                        Integer ticketCount = input.nextInt();
+                        input.nextLine();
+
+                        Long id = reservationService.register(new Reservation(customerName, customerPhone, eventId, ticketCount, LocalDate.now()));
+                        System.out.println("\nReservation Created Successfully!\nID: " + id);
+                    }
+                    catch (EventNotFoundException | EventCancelledException | CapacityExceededException | InvalidDataException e) {
                         System.err.println(e.getMessage());
                     }
                     break;
