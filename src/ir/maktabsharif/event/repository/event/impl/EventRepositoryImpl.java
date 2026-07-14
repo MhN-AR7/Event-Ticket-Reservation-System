@@ -19,14 +19,13 @@ public class EventRepositoryImpl implements EventRepository {
     public Long save(Event event) {
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement ps = connection.prepareStatement(
-                     "INSERT INTO events (title, location, capacity, ticket_price, status) VALUES (?,?,?,?,?) RETURNING id"
+                     "INSERT INTO events (title, location, capacity, ticket_price) VALUES (?,?,?,?) RETURNING id"
              )
         ) {
             ps.setString(1, event.getTitle());
             ps.setString(2, event.getLocation());
             ps.setInt(3, event.getCapacity());
             ps.setBigDecimal(4, event.getTicketPrice());
-            ps.setString(5, event.getStatus().toString());
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) return rs.getLong("id");

@@ -7,7 +7,7 @@ CREATE TABLE events (
                         capacity INTEGER,
                         reserved_count INTEGER DEFAULT 0,
                         ticket_price DECIMAL(15,2),
-                        status VARCHAR
+                        status VARCHAR DEFAULT 'ACTIVE'
 );
 
 CREATE TABLE reservations (
