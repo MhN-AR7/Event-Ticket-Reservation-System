@@ -80,4 +80,12 @@ public class EventServiceImpl implements EventService {
     public Integer getActiveEventCount() {
         return eventRepository.findActiveEventCount();
     }
+
+    @Override
+    public List<Event> getMostExpensive() {
+        List<Event> events = eventRepository.findMostExpensive();
+
+        if (events.isEmpty()) throw new EventNotFoundException("Event List is Empty!");
+        return events;
+    }
 }
