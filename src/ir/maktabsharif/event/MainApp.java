@@ -70,6 +70,17 @@ public class MainApp {
                         System.err.println(e.getMessage());
                     }
                     break;
+                case 3:
+                    try {
+                        System.out.println("\n---- Finding Event By ID ----\n");
+                        System.out.print("Enter Event's ID: ");
+                        Long id = input.nextLong();
+                        input.nextLine();
+                        System.out.println(eventService.getById(id));
+                    }
+                    catch (EventNotFoundException e) {
+                        System.err.println(e.getMessage());
+                    }
             }
         }
     }
