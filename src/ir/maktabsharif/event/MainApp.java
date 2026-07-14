@@ -166,6 +166,45 @@ public class MainApp {
                         System.err.println(e.getMessage());
                     }
                     break;
+                case 9:
+                    try {
+                        System.out.println("\n---- Updating Reservation ----\n");
+                        System.out.print("Enter Reservation's ID: ");
+                        Long id = input.nextLong();
+                        System.out.print("Enter New Customer Name: ");
+                        String newName = input.nextLine();
+                        System.out.print("Enter New Customer Phone Number: ");
+                        String newPhone = input.nextLine();
+                        System.out.print("Enter New Event ID: ");
+                        Long newEventId = input.nextLong();
+                        input.nextLine();
+                        System.out.print("Enter New Ticket Count: ");
+                        Integer newTicketCount = input.nextInt();
+                        input.nextLine();
+
+                        Reservation newReservation = reservationService.change(new Reservation(id, newName, newPhone, newEventId, newTicketCount));
+
+                        System.out.println("\nReservation Updated Successfully!" + newReservation);
+                    }
+                    catch (EventNotFoundException | ReservationNotFoundException | InvalidDataException | EventCancelledException | CapacityExceededException e) {
+                        System.err.println(e.getMessage());
+                    }
+                    break;
+                case 10:
+                    try {
+                        System.out.println("\n---- Canceling Reservation ----\n");
+                        System.out.print("Enter Reservation's ID: ");
+                        Long id = input.nextLong();
+                        input.nextLine();
+
+                        id = reservationService.cancel(id);
+
+                        System.out.println("\nReservation Cancelled Successfully With ID: " + id);
+                    }
+                    catch (EventNotFoundException | InvalidDataException | ReservationNotFoundException e) {
+                        System.err.println(e.getMessage());
+                    }
+                    break;
             }
         }
     }

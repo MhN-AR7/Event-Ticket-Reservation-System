@@ -21,6 +21,14 @@ public class ReservationServiceImpl implements ReservationService {
         Event event = eventRepository.findById(reservation.getEventId())
                 .orElseThrow(() -> new EventNotFoundException("Event Not Found!"));
 
+        Rule.check(reservation.getEventId() < 0,
+                InvalidDataException::new,
+                "Event ID Cannot be Negative!");
+
+        Rule.check(reservation.getTicketCount() < 0,
+                InvalidDataException::new,
+                "Ticket Count Cannot be Negative!");
+
         Rule.check(event.getStatus().equals(EventStatus.ACTIVE),
                 EventCancelledException::new,
                 "Event Must be Active!");
@@ -52,6 +60,14 @@ public class ReservationServiceImpl implements ReservationService {
 
         Reservation oldReservation = reservationRepository.findById(reservation.getId())
                 .orElseThrow(() -> new ReservationNotFoundException("Reservation Not Found!"));
+
+        Rule.check(reservation.getEventId() < 0,
+                InvalidDataException::new,
+                "Event ID Cannot be Negative!");
+
+        Rule.check(reservation.getTicketCount() < 0,
+                InvalidDataException::new,
+                "Ticket Count Cannot be Negative!");
 
         Rule.check(event.getStatus().equals(EventStatus.ACTIVE),
                 EventCancelledException::new,

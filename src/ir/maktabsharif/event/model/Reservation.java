@@ -31,6 +31,14 @@ public class Reservation extends BaseModel {
         this.status = status;
     }
 
+    public Reservation(Long id, String customerName, String customerPhone, Long eventId, Integer ticketCount) {
+        super(id);
+        this.customerName = customerName;
+        this.customerPhone = customerPhone;
+        this.eventId = eventId;
+        this.ticketCount = ticketCount;
+    }
+
     public Reservation(String customerName, String customerPhone, Long eventId, Integer ticketCount, LocalDate reservationDate) {
         this.customerName = customerName;
         this.customerPhone = customerPhone;
@@ -38,6 +46,7 @@ public class Reservation extends BaseModel {
         this.ticketCount = ticketCount;
         this.reservationDate = reservationDate;
     }
+
 
     public String getCustomerName() {
         return customerName;
