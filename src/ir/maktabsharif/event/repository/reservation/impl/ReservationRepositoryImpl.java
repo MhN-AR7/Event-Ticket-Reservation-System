@@ -16,7 +16,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     public Long save(Reservation reservation) {
         try (Connection connection = DatabaseConfig.getConnection();
              PreparedStatement ps = connection.prepareStatement(
-                     "INSERT INTO reservations (customer_name, customer_phone, event_id, ticket_count, reservation_date) VALUES (?,?,?,?,?) RETURNING id"
+                     "INSERT INTO reservations (customer_name, customer_phone, event_id, ticket_count, reservation_date, status) VALUES (?,?,?,?,?,?) RETURNING id"
              )
         ) {
             ps.setString(1, reservation.getCustomerName());
@@ -24,6 +24,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
             ps.setLong(3, reservation.getEventId());
             ps.setInt(4, reservation.getTicketCount());
             ps.setDate(5, Date.valueOf(reservation.getReservationDate()));
+            ps.setString(6, ReservationStatus.ACTIVE.toString());
 
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) return rs.getLong("id");
@@ -39,17 +40,15 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     public boolean update(Reservation reservation) {
         try (Connection connection = DatabaseConfig.getConnection();
             PreparedStatement ps = connection.prepareStatement(
-                    "UPDATE reservations SET customer_name=?, customer_phone=?, event_id=?, ticket_count=?, reservation_date=?, status=? WHERE id = ?"
+                    "UPDATE reservations SET customer_name=?, customer_phone=?, event_id=?, ticket_count=? WHERE id = ?"
             )
         ) {
             ps.setString(1, reservation.getCustomerName());
             ps.setString(2, reservation.getCustomerPhone());
             ps.setLong(3, reservation.getEventId());
             ps.setInt(4, reservation.getTicketCount());
-            ps.setDate(5, Date.valueOf(reservation.getReservationDate()));
-            ps.setString(6, reservation.getStatus().toString());
 
-            ps.setLong(7, reservation.getId());
+            ps.setLong(5, reservation.getId());
 
             int rowsAffected = ps.executeUpdate();
 
