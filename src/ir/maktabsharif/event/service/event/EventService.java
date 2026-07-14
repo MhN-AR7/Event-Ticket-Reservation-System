@@ -7,8 +7,4 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface EventService extends GenericService<Event> {
-    Integer getActiveEventCount();
-    List<Event> getMostExpensive();
-    BigDecimal getAverageTicketPrice();
-    List<Event> getFullyBooked();
 }

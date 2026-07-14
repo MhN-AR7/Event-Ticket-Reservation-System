@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface ReservationRepository extends GenericRepository<Reservation> {
     boolean existByPhoneNumber(String phoneNumber);
-    List<Reservation> findActiveReservation();
 }

@@ -6,5 +6,4 @@ import ir.maktabsharif.event.service.GenericService;
 import java.util.List;
 
 public interface ReservationService extends GenericService<Reservation> {
-    List<Reservation> getActiveReservation();
 }
