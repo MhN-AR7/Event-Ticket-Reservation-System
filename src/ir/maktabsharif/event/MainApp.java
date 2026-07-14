@@ -1,5 +1,7 @@
 package ir.maktabsharif.event;
 
+import ir.maktabsharif.event.enums.EventStatus;
+import ir.maktabsharif.event.enums.ReservationStatus;
 import ir.maktabsharif.event.exception.*;
 import ir.maktabsharif.event.model.Event;
 import ir.maktabsharif.event.model.Reservation;
@@ -9,7 +11,11 @@ import ir.maktabsharif.event.service.reservation.ReservationService;
 import ir.maktabsharif.event.service.reservation.impl.ReservationServiceImpl;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class MainApp {
@@ -205,6 +211,63 @@ public class MainApp {
                         System.err.println(e.getMessage());
                     }
                     break;
+                case 11:
+                    try {
+                        System.out.println("\n---- Reports ----\n");
+
+                        List<Event> events = eventService.getAll();
+
+                        long activeEventCount = events.stream()
+                                .filter(event -> event.getStatus().equals(EventStatus.ACTIVE))
+                                .count();
+                        System.out.println("\nActive Event Count: " + activeEventCount + "\n");
+
+                        BigDecimal maxPrice = events.stream()
+                                .map(Event::getTicketPrice)
+                                .max(BigDecimal::compareTo)
+                                .orElse(BigDecimal.ZERO);
+                        List<Event> mostExpensiveEvents = events.stream()
+                                .filter(e -> e.getTicketPrice().compareTo(maxPrice) == 0)
+                                .toList();
+                        System.out.println("\nMost Expensive Events: ");
+                        mostExpensiveEvents.forEach(System.out::println);
+
+                        List<BigDecimal> prices = events.stream().map(Event::getTicketPrice).toList();
+                        BigDecimal sumPrice = BigDecimal.ZERO;
+                        for (BigDecimal price : prices) {
+                            sumPrice = sumPrice.add(price);
+                        }
+//                        BigDecimal sumPrice = events.stream()
+//                                .map(Event::getTicketPrice)
+//                                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                        BigDecimal avgPrice = sumPrice.divide(
+                                BigDecimal.valueOf(events.size()),
+                                2, RoundingMode.HALF_UP
+                        );
+                        System.out.println("\nAverage Ticket Price: " + avgPrice + "\n");
+
+                        try {
+                            List<Reservation> reservations = reservationService.getAll();
+
+                            List<Reservation> activeReservations = reservations.stream()
+                                    .filter(reservation -> reservation.getStatus().equals(ReservationStatus.ACTIVE))
+                                    .toList();
+                            System.out.println("\nActive Reservations: ");
+                            activeReservations.forEach(System.out::println);
+                        }
+                        catch (ReservationNotFoundException e) {
+                            System.err.println(e.getMessage());
+                        }
+
+                        List<Event> fullyBookedEvents = events.stream()
+                                .filter(event -> event.getCapacity().equals(event.getReservedCount()))
+                                .toList();
+                        System.out.println("\nFully Booked Events: ");
+                        fullyBookedEvents.forEach(System.out::println);
+                    }
+                    catch (EventNotFoundException e) {
+                        System.err.println(e.getMessage());
+                    }
             }
         }
     }

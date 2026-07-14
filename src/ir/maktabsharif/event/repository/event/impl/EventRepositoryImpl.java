@@ -117,7 +117,7 @@ public class EventRepositoryImpl implements EventRepository {
     public List<Event> findAll() {
         try (Connection connection = DatabaseConfig.getConnection();
             PreparedStatement ps = connection.prepareStatement(
-                    "SELECT * FROM events"
+                    "SELECT * FROM events ORDER BY id"
             );
             ResultSet rs = ps.executeQuery()
         ) {

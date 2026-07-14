@@ -114,7 +114,7 @@ public class ReservationRepositoryImpl implements ReservationRepository {
     public List<Reservation> findAll() {
         try (Connection connection = DatabaseConfig.getConnection();
             PreparedStatement ps = connection.prepareStatement(
-                    "SELECT * FROM reservations"
+                    "SELECT * FROM reservations ORDER BY id"
             );
             ResultSet rs = ps.executeQuery()
         ) {
