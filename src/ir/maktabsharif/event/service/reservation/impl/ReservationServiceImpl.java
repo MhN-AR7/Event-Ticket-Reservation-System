@@ -47,8 +47,8 @@ public class ReservationServiceImpl implements ReservationService {
 
         Long id = reservationRepository.save(reservation);
 
-        eventRepository.update(new Event(event.getTitle(), event.getLocation(), event.getCapacity(),
-                event.getReservedCount() + reservation.getTicketCount(), event.getTicketPrice(), event.getStatus()));
+        eventRepository.update(new Event(event.getId(), event.getTitle(), event.getLocation(), event.getCapacity(),
+                event.getReservedCount() + reservation.getTicketCount(), event.getTicketPrice()));
 
         return id;
     }
@@ -87,9 +87,9 @@ public class ReservationServiceImpl implements ReservationService {
 
         reservationRepository.update(reservation);
 
-        eventRepository.update(new Event(event.getTitle(), event.getLocation(), event.getCapacity(),
+        eventRepository.update(new Event(event.getId(), event.getTitle(), event.getLocation(), event.getCapacity(),
                 event.getReservedCount() + (reservation.getTicketCount() - oldReservation.getTicketCount())
-                , event.getTicketPrice(), event.getStatus()));
+                , event.getTicketPrice()));
 
         return reservationRepository.findById(reservation.getId())
                 .orElseThrow(() -> new ReservationNotFoundException("Reservation Not Found!"));
@@ -108,8 +108,8 @@ public class ReservationServiceImpl implements ReservationService {
 
         reservationRepository.cancel(id);
 
-        eventRepository.update(new Event(event.getTitle(), event.getLocation(), event.getCapacity(),
-                event.getReservedCount() - reservation.getTicketCount(), event.getTicketPrice(), event.getStatus()));
+        eventRepository.update(new Event(event.getId(), event.getTitle(), event.getLocation(), event.getCapacity(),
+                event.getReservedCount() - reservation.getTicketCount(),event.getTicketPrice()));
 
         return id;
     }

@@ -22,15 +22,6 @@ public class Reservation extends BaseModel {
         this.status = status;
     }
 
-    public Reservation(String customerName, String customerPhone, Long eventId, Integer ticketCount, LocalDate reservationDate, ReservationStatus status) {
-        this.customerName = customerName;
-        this.customerPhone = customerPhone;
-        this.eventId = eventId;
-        this.ticketCount = ticketCount;
-        this.reservationDate = reservationDate;
-        this.status = status;
-    }
-
     public Reservation(Long id, String customerName, String customerPhone, Long eventId, Integer ticketCount) {
         super(id);
         this.customerName = customerName;
