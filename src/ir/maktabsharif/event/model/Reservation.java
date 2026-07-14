@@ -43,48 +43,24 @@ public class Reservation extends BaseModel {
         return customerName;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
     public String getCustomerPhone() {
         return customerPhone;
-    }
-
-    public void setCustomerPhone(String customerPhone) {
-        this.customerPhone = customerPhone;
     }
 
     public Long getEventId() {
         return eventId;
     }
 
-    public void setEventId(Long eventId) {
-        this.eventId = eventId;
-    }
-
     public Integer getTicketCount() {
         return ticketCount;
-    }
-
-    public void setTicketCount(Integer ticketCount) {
-        this.ticketCount = ticketCount;
     }
 
     public LocalDate getReservationDate() {
         return reservationDate;
     }
 
-    public void setReservationDate(LocalDate reservationDate) {
-        this.reservationDate = reservationDate;
-    }
-
     public ReservationStatus getStatus() {
         return status;
-    }
-
-    public void setStatus(ReservationStatus status) {
-        this.status = status;
     }
 
     @Override

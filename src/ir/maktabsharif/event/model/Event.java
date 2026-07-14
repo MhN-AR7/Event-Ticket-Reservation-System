@@ -22,15 +22,6 @@ public class Event extends BaseModel {
         this.status = status;
     }
 
-    public Event(Long id, String title, String location, Integer capacity, Integer reservedCount, BigDecimal ticketPrice) {
-        super(id);
-        this.title = title;
-        this.location = location;
-        this.capacity = capacity;
-        this.reservedCount = reservedCount;
-        this.ticketPrice = ticketPrice;
-    }
-
     public Event(Long id, String title, String location, Integer capacity, BigDecimal ticketPrice) {
         super(id);
         this.title = title;
@@ -51,48 +42,24 @@ public class Event extends BaseModel {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getLocation() {
         return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public Integer getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(Integer capacity) {
-        this.capacity = capacity;
-    }
-
     public Integer getReservedCount() {
         return reservedCount;
-    }
-
-    public void setReservedCount(Integer reservedCount) {
-        this.reservedCount = reservedCount;
     }
 
     public BigDecimal getTicketPrice() {
         return ticketPrice;
     }
 
-    public void setTicketPrice(BigDecimal ticketPrice) {
-        this.ticketPrice = ticketPrice;
-    }
-
     public EventStatus getStatus() {
         return status;
-    }
-
-    public void setStatus(EventStatus status) {
-        this.status = status;
     }
 
     @Override
