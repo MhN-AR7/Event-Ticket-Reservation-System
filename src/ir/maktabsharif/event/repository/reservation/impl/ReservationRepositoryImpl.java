@@ -157,4 +157,35 @@ public class ReservationRepositoryImpl implements ReservationRepository {
             throw new DatabaseRepositoryException("Existing Phone Number From reservations Table Failed!" + e.getMessage());
         }
     }
+
+    @Override
+    public List<Reservation> findActiveReservation() {
+        try (Connection connection = DatabaseConfig.getConnection();
+            PreparedStatement ps = connection.prepareStatement(
+                    "SELECT * FROM reservations WHERE status = 'ACTIVE'"
+            );
+            ResultSet rs = ps.executeQuery()
+        ) {
+            List<Reservation> reservations = new ArrayList<>();
+
+            while (rs.next()) {
+                reservations.add(
+                        new Reservation(
+                                rs.getLong(1),
+                                rs.getString(2),
+                                rs.getString(3),
+                                rs.getLong(4),
+                                rs.getInt(5),
+                                rs.getDate(6).toLocalDate(),
+                                ReservationStatus.valueOf(rs.getString(7))
+                        )
+                );
+            }
+
+            return reservations;
+        }
+        catch (SQLException e) {
+            throw new DatabaseRepositoryException("Finding Active From reservations Table Failed!");
+        }
+    }
 }
