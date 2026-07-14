@@ -75,4 +75,9 @@ public class EventServiceImpl implements EventService {
         if (events.isEmpty()) throw new EventNotFoundException("Event List is Empty!");
         return events;
     }
+
+    @Override
+    public Integer getActiveEventCount() {
+        return eventRepository.findActiveEventCount();
+    }
 }
