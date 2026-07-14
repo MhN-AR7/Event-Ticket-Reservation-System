@@ -268,6 +268,13 @@ public class MainApp {
                     catch (EventNotFoundException e) {
                         System.err.println(e.getMessage());
                     }
+                    break;
+                case 0:
+                    System.out.println("Exiting Program...");
+                    return;
+                default:
+                    System.out.println("Invalid Choice!\nTry Again.");
+                    break;
             }
         }
     }
