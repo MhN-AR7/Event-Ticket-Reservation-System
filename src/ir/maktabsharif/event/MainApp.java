@@ -81,6 +81,33 @@ public class MainApp {
                     catch (EventNotFoundException e) {
                         System.err.println(e.getMessage());
                     }
+                    break;
+                case 4:
+                    try {
+                        System.out.println("\n---- Updating Event ----\n");
+                        System.out.print("Enter Event ID: ");
+                        Long id = input.nextLong();
+                        input.nextLine();
+                        System.out.print("Enter New Title: ");
+                        String newTitle = input.nextLine();
+                        System.out.print("Enter New Location: ");
+                        String newLocation = input.nextLine();
+                        System.out.print("Enter New Capacity: ");
+                        Integer newCapacity = input.nextInt();
+                        input.nextLine();
+                        System.out.print("Enter New Ticket Price: ");
+                        BigDecimal newTicketPrice = input.nextBigDecimal();
+                        input.nextLine();
+
+                        Event newEvent = eventService.change(new Event(id, newTitle, newLocation, newCapacity, newTicketPrice));
+
+
+                        System.out.println("\nEvent Updated Successfully!" + newEvent);
+                    }
+                    catch (EventNotFoundException | InvalidDataException e) {
+                        System.err.println(e.getMessage());
+                    }
+                    break;
             }
         }
     }

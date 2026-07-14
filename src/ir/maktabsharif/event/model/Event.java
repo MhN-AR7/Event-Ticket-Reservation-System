@@ -31,6 +31,14 @@ public class Event extends BaseModel {
         this.status = status;
     }
 
+    public Event(Long id, String title, String location, Integer capacity, BigDecimal ticketPrice) {
+        super(id);
+        this.title = title;
+        this.location = location;
+        this.capacity = capacity;
+        this.ticketPrice = ticketPrice;
+    }
+
     public Event(String title, String location, Integer capacity, BigDecimal ticketPrice) {
         this.title = title;
         this.location = location;

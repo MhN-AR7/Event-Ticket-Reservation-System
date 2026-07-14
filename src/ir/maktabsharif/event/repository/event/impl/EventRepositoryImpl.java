@@ -41,17 +41,15 @@ public class EventRepositoryImpl implements EventRepository {
     public boolean update(Event event) {
         try (Connection connection = DatabaseConfig.getConnection();
             PreparedStatement ps = connection.prepareStatement(
-                    "UPDATE events SET title=?, location=?, capacity=?, reserved_count=?, ticket_price=?, status=? WHERE id = ?"
+                    "UPDATE events SET title=?, location=?, capacity=?, ticket_price=? WHERE id = ?"
             )
         ) {
             ps.setString(1, event.getTitle());
             ps.setString(2, event.getLocation());
             ps.setInt(3, event.getCapacity());
-            ps.setInt(4, event.getReservedCount());
-            ps.setBigDecimal(5, event.getTicketPrice());
-            ps.setString(6, event.getStatus().toString());
+            ps.setBigDecimal(4, event.getTicketPrice());
 
-            ps.setLong(7, event.getId());
+            ps.setLong(5, event.getId());
 
             int rowsAffected = ps.executeUpdate();
 

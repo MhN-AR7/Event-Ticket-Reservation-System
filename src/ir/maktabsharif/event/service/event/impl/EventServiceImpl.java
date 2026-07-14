@@ -39,14 +39,6 @@ public class EventServiceImpl implements EventService {
                 InvalidDataException::new,
                 "Capacity Cannot be Negative!");
 
-        Rule.check(event.getReservedCount() < 0,
-                InvalidDataException::new,
-                "Reserved Count Cannot be Negative!");
-
-        Rule.check(event.getReservedCount() > event.getCapacity(),
-                CapacityExceededException::new,
-                "Reserved Count Cannot Bigger Than Capacity!");
-
         Rule.check(event.getTicketPrice().compareTo(BigDecimal.ZERO) < 0,
                 InvalidDataException::new,
                 "Price Cannot be Negative!");
