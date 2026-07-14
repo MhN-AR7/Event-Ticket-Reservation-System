@@ -141,4 +141,22 @@ public class EventRepositoryImpl implements EventRepository {
             throw new DatabaseRepositoryException("Finding All From events Table Failed!" + e.getMessage());
         }
     }
+
+    @Override
+    public Integer findActiveEventCount() {
+        try (Connection connection = DatabaseConfig.getConnection();
+            PreparedStatement ps = connection.prepareStatement(
+                    "SELECT COUNT(*) FROM events WHERE status = 'ACTIVE'"
+            );
+            ResultSet rs = ps.executeQuery()
+        ) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+            throw new DatabaseRepositoryException("Active Event Count Not Returned!");
+        }
+        catch (SQLException e) {
+            throw new DatabaseRepositoryException("Finding Active Event From events Table Failed!");
+        }
+    }
 }
