@@ -159,4 +159,36 @@ public class EventRepositoryImpl implements EventRepository {
             throw new DatabaseRepositoryException("Finding Active Event From events Table Failed!");
         }
     }
+
+    @Override
+    public List<Event> findMostExpensive() {
+        try (Connection connection = DatabaseConfig.getConnection();
+            PreparedStatement ps = connection.prepareStatement(
+                    "SELECT * FROM events WHERE ticket_price = (" +
+                            "SELECT MAX(ticket_price) FROM events)"
+            );
+            ResultSet rs = ps.executeQuery();
+        ) {
+            List<Event> events = new ArrayList<>();
+
+            while (rs.next()) {
+                events.add(
+                        new Event(
+                                rs.getLong(1),
+                                rs.getString(2),
+                                rs.getString(3),
+                                rs.getInt(4),
+                                rs.getInt(5),
+                                rs.getBigDecimal(6),
+                                EventStatus.valueOf(rs.getString(7))
+                        )
+                );
+            }
+
+            return events;
+        }
+        catch (SQLException e) {
+            throw new DatabaseRepositoryException("Finding Most Expensive From events Table Failed!");
+        }
+    }
 }
