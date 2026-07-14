@@ -152,7 +152,7 @@ public class EventRepositoryImpl implements EventRepository {
             ps.setInt(1, reservedCount);
             ps.setLong(2, id);
 
-            int rowsAffected = ps.executeUpdate();
+            ps.executeUpdate();
 
         }
         catch (SQLException e) {
