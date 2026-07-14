@@ -1,5 +1,6 @@
 package ir.maktabsharif.event;
 
+import ir.maktabsharif.event.exception.EventNotFoundException;
 import ir.maktabsharif.event.exception.InvalidDataException;
 import ir.maktabsharif.event.model.Event;
 import ir.maktabsharif.event.service.event.EventService;
@@ -57,6 +58,15 @@ public class MainApp {
                         System.out.println("\nEvent Created Successfully!\nID: " + id);
                     }
                     catch (InvalidDataException e) {
+                        System.err.println(e.getMessage());
+                    }
+                    break;
+                case 2:
+                    try {
+                        System.out.println("\n---- All Events ----\n");
+                        eventService.getAll().forEach(System.out::println);
+                    }
+                    catch (EventNotFoundException e) {
                         System.err.println(e.getMessage());
                     }
                     break;
