@@ -108,6 +108,21 @@ public class MainApp {
                         System.err.println(e.getMessage());
                     }
                     break;
+                case 5:
+                    try {
+                        System.out.println("\n---- Canceling Event ----\n");
+                        System.out.print("Enter Event's ID: ");
+                        Long id = input.nextLong();
+                        input.nextLine();
+
+                        id = eventService.cancel(id);
+
+                        System.out.println("\nEvent Cancelled Successfully With ID: " + id);
+                    }
+                    catch (EventNotFoundException | InvalidDataException e) {
+                        System.err.println(e.getMessage());
+                    }
+                    break;
             }
         }
     }
