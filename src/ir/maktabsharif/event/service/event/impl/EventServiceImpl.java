@@ -93,4 +93,12 @@ public class EventServiceImpl implements EventService {
     public BigDecimal getAverageTicketPrice() {
         return eventRepository.findAverageTicketPrice();
     }
+
+    @Override
+    public List<Event> getFullyBooked() {
+        List<Event> events = eventRepository.findFullyBooked();
+
+        if (events.isEmpty()) throw new EventNotFoundException("No Event Fully Booked!");
+        return events;
+    }
 }
