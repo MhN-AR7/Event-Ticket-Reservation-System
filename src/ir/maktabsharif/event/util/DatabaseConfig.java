@@ -12,8 +12,8 @@ public class DatabaseConfig {
     private static final String PASSWORD = "2117";
 
     public static Connection getConnection() {
-        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD)) {
-            return connection;
+        try {
+            return DriverManager.getConnection(URL, USERNAME, PASSWORD);
         }
         catch (SQLException e) {
             throw new DatabaseConnectionException("Connection to Database Failed!" + e.getMessage());

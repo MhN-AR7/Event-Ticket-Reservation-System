@@ -29,7 +29,7 @@ public class ReservationServiceImpl implements ReservationService {
                 InvalidDataException::new,
                 "Ticket Count Cannot be Negative!");
 
-        Rule.check(event.getStatus().equals(EventStatus.ACTIVE),
+        Rule.check(!event.getStatus().equals(EventStatus.ACTIVE),
                 EventCancelledException::new,
                 "Event Must be Active!");
 
@@ -47,8 +47,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         Long id = reservationRepository.save(reservation);
 
-        eventRepository.update(new Event(event.getId(), event.getTitle(), event.getLocation(), event.getCapacity(),
-                event.getReservedCount() + reservation.getTicketCount(), event.getTicketPrice()));
+        eventRepository.updateReservedCount(event.getId(), event.getReservedCount() + reservation.getTicketCount());
 
         return id;
     }
@@ -69,7 +68,7 @@ public class ReservationServiceImpl implements ReservationService {
                 InvalidDataException::new,
                 "Ticket Count Cannot be Negative!");
 
-        Rule.check(event.getStatus().equals(EventStatus.ACTIVE),
+        Rule.check(!event.getStatus().equals(EventStatus.ACTIVE),
                 EventCancelledException::new,
                 "Event Must be Active!");
 
@@ -87,9 +86,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         reservationRepository.update(reservation);
 
-        eventRepository.update(new Event(event.getId(), event.getTitle(), event.getLocation(), event.getCapacity(),
-                event.getReservedCount() + (reservation.getTicketCount() - oldReservation.getTicketCount())
-                , event.getTicketPrice()));
+        eventRepository.updateReservedCount(event.getId(), event.getReservedCount() + (reservation.getTicketCount() - oldReservation.getTicketCount()));
 
         return reservationRepository.findById(reservation.getId())
                 .orElseThrow(() -> new ReservationNotFoundException("Reservation Not Found!"));
@@ -108,8 +105,7 @@ public class ReservationServiceImpl implements ReservationService {
 
         reservationRepository.cancel(id);
 
-        eventRepository.update(new Event(event.getId(), event.getTitle(), event.getLocation(), event.getCapacity(),
-                event.getReservedCount() - reservation.getTicketCount(),event.getTicketPrice()));
+        eventRepository.updateReservedCount(event.getId(), event.getReservedCount() - reservation.getTicketCount());
 
         return id;
     }

@@ -6,7 +6,6 @@ import ir.maktabsharif.event.model.Event;
 import ir.maktabsharif.event.repository.event.EventRepository;
 import ir.maktabsharif.event.util.DatabaseConfig;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -140,6 +139,24 @@ public class EventRepositoryImpl implements EventRepository {
         }
         catch (SQLException e) {
             throw new DatabaseRepositoryException("Finding All From events Table Failed!" + e.getMessage());
+        }
+    }
+
+    @Override
+    public void updateReservedCount(Long id, Integer reservedCount) {
+        try (Connection connection = DatabaseConfig.getConnection();
+             PreparedStatement ps = connection.prepareStatement(
+                     "UPDATE events SET reserved_count = ? WHERE id = ?"
+             )
+        ) {
+            ps.setInt(1, reservedCount);
+            ps.setLong(2, id);
+
+            int rowsAffected = ps.executeUpdate();
+
+        }
+        catch (SQLException e) {
+            throw new DatabaseRepositoryException("Update Reserved Count From events Table Failed!" + e.getMessage());
         }
     }
 }

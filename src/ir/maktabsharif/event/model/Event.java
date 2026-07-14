@@ -100,7 +100,7 @@ public class Event extends BaseModel {
         return String.format("""
                 ID: %d | Title: %s
                 Location: %s | Reserved: %d/%d
-                Price: %.2f | Status: %s
+                Price: %.2f$ | Status: %s
                 """, this.getId(), title, location, reservedCount, capacity, ticketPrice, status.toString());
     }
 }

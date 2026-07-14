@@ -175,6 +175,7 @@ public class MainApp {
                         System.out.println("\n---- Updating Reservation ----\n");
                         System.out.print("Enter Reservation's ID: ");
                         Long id = input.nextLong();
+                        input.nextLine();
                         System.out.print("Enter New Customer Name: ");
                         String newName = input.nextLine();
                         System.out.print("Enter New Customer Phone Number: ");
@@ -260,8 +261,11 @@ public class MainApp {
                         List<Event> fullyBookedEvents = events.stream()
                                 .filter(event -> event.getCapacity().equals(event.getReservedCount()))
                                 .toList();
-                        System.out.println("\nFully Booked Events: ");
-                        fullyBookedEvents.forEach(System.out::println);
+                        if (fullyBookedEvents.isEmpty()) System.out.println("\nNo Fully Booked Events!");
+                        else {
+                            System.out.println("\nFully Booked Events: ");
+                            fullyBookedEvents.forEach(System.out::println);
+                        }
                     }
                     catch (EventNotFoundException e) {
                         System.err.println(e.getMessage());

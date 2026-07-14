@@ -43,7 +43,7 @@ public class EventServiceImpl implements EventService {
                 InvalidDataException::new,
                 "Price Cannot be Negative!");
 
-        Rule.check(eventRepository.update(event),
+        Rule.check(!eventRepository.update(event),
                 EventNotFoundException::new,
                 "Event Not Found!");
 
