@@ -4,4 +4,5 @@ import ir.maktabsharif.event.model.Event;
 import ir.maktabsharif.event.repository.GenericRepository;
 
 public interface EventRepository extends GenericRepository<Event> {
+    Integer findActiveEventCount();
 }
