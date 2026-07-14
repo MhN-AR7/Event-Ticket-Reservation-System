@@ -10,4 +10,5 @@ public interface EventService extends GenericService<Event> {
     Integer getActiveEventCount();
     List<Event> getMostExpensive();
     BigDecimal getAverageTicketPrice();
+    List<Event> getFullyBooked();
 }
