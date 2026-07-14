@@ -1,9 +1,6 @@
 package ir.maktabsharif.event;
 
-import ir.maktabsharif.event.exception.CapacityExceededException;
-import ir.maktabsharif.event.exception.EventCancelledException;
-import ir.maktabsharif.event.exception.EventNotFoundException;
-import ir.maktabsharif.event.exception.InvalidDataException;
+import ir.maktabsharif.event.exception.*;
 import ir.maktabsharif.event.model.Event;
 import ir.maktabsharif.event.model.Reservation;
 import ir.maktabsharif.event.service.event.EventService;
@@ -145,6 +142,27 @@ public class MainApp {
                         System.out.println("\nReservation Created Successfully!\nID: " + id);
                     }
                     catch (EventNotFoundException | EventCancelledException | CapacityExceededException | InvalidDataException e) {
+                        System.err.println(e.getMessage());
+                    }
+                    break;
+                case 7:
+                    try {
+                        System.out.println("\n---- All Reservations ----\n");
+                        reservationService.getAll().forEach(System.out::println);
+                    }
+                    catch (ReservationNotFoundException e) {
+                        System.err.println(e.getMessage());
+                    }
+                    break;
+                case 8:
+                    try {
+                        System.out.println("\n---- Finding Reservation By ID ----\n");
+                        System.out.print("Enter Reservation's ID: ");
+                        Long id = input.nextLong();
+                        input.nextLine();
+                        System.out.println(reservationService.getById(id));
+                    }
+                    catch (ReservationNotFoundException e) {
                         System.err.println(e.getMessage());
                     }
                     break;
