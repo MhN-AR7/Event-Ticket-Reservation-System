@@ -10,4 +10,5 @@ public interface EventRepository extends GenericRepository<Event> {
     Integer findActiveEventCount();
     List<Event> findMostExpensive();
     BigDecimal findAverageTicketPrice();
+    List<Event> findFullyBooked();
 }
